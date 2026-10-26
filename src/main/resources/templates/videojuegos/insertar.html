@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar Videojuego - GameVault</title>
+    <!-- Enlace a los CSS proporcionados por el profesor -->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Insertar videojuego</h1>
+
+    <!-- Mensajes de éxito o error -->
+    <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}"></div>
+    <div th:if="${error}" class="mensaje-error" th:text="${error}"></div>
+
+    <br>
+
+    <!-- Formulario de Inserción -->
+    <form action="#" th:action="@{/videojuegos/insertar}" method="post" class="form-insertar">
+        <div class="campo">
+            <label>Título:</label>
+            <input type="text" name="titulo" required />
+        </div>
+
+        <div class="campo">
+            <label>Año de lanzamiento:</label>
+            <input type="number" name="anioLanzamiento" required />
+        </div>
+
+        <div class="campo">
+            <label>PEGI:</label>
+            <select name="pegi">
+                <option value="3">3</option>
+                <option value="7">7</option>
+                <option value="12">12</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label>Desarrolladora:</label>
+            <select name="idDesarrolladora">
+                <option th:each="dev : ${desarrolladoras}"
+                        th:value="${dev.id}"
+                        th:text="${dev.nombre}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Insertar</button>
+    </form>
+
+    <br>
+    <a th:href="@{/videojuegos}" class="btn-enlace">Volver al listado</a>
+</div>
+</body>
+</html>

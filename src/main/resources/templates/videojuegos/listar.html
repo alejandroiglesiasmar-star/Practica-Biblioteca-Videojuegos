@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Videojuegos - GameVault</title>
+    <!-- Enlace a los CSS proporcionados por el profesor -->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/tablas.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Listado de videojuegos</h1>
+
+    <!-- Formulario de Búsqueda y Filtros -->
+    <form action="#" th:action="@{/videojuegos}" method="get" class="form-filtro">
+        <div class="campo">
+            <label>Título:</label>
+            <input type="text" name="titulo" th:value="${tituloFiltro}" />
+        </div>
+
+        <div class="campo">
+            <label>Desarrolladora:</label>
+            <select name="idDesarrolladora">
+                <option value="">Todas</option>
+                <option th:each="dev : ${desarrolladoras}"
+                        th:value="${dev.id}"
+                        th:text="${dev.nombre}"
+                        th:selected="${dev.id == desarrolladoraFiltro}">
+                </option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label>Año desde:</label>
+            <input type="number" name="anioDesde" th:value="${anioDesdeFiltro}" />
+        </div>
+
+        <div class="campo">
+            <label>PEGI máximo:</label>
+            <select name="pegiMaximo">
+                <option value="">Cualquiera</option>
+                <option value="3" th:selected="${pegiMaximoFiltro == 3}">3</option>
+                <option value="7" th:selected="${pegiMaximoFiltro == 7}">7</option>
+                <option value="12" th:selected="${pegiMaximoFiltro == 12}">12</option>
+                <option value="16" th:selected="${pegiMaximoFiltro == 16}">16</option>
+                <option value="18" th:selected="${pegiMaximoFiltro == 18}">18</option>
+            </select>
+        </div>
+
+        <div class="campo-checkbox">
+            <label>
+                <input type="checkbox" name="soloDisponibles" th:checked="${soloDisponiblesFiltro}" />
+                Solo con copias disponibles
+            </label>
+        </div>
+
+        <button type="submit" class="btn">Buscar</button>
+    </form>
+
+    <br>
+    <a th:href="@{/videojuegos/nuevo}" class="btn-enlace">Insertar nuevo videojuego</a>
+    <br><br>
+
+    <!-- Tabla de Resultados -->
+    <table class="tabla-datos">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Desarrolladora</th>
+            <th>Año</th>
+            <th>PEGI</th>
+            <th>Copias</th>
+            <th>Disponibles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="juego : ${videojuegos}">
+            <td th:text="${juego.id}"></td>
+            <td th:text="${juego.titulo}"></td>
+            <td th:text="${juego.desarrolladora}"></td>
+            <td th:text="${juego.anioLanzamiento}"></td>
+            <td th:text="${juego.pegi}"></td>
+            <td th:text="${juego.copiasTotales}"></td>
+            <td th:text="${juego.copiasDisponibles}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(videojuegos)}">
+            <td colspan="7" class="vacio">No se encontraron videojuegos con los filtros seleccionados.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
