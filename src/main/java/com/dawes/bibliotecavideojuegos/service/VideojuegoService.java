@@ -19,17 +19,17 @@ public class VideojuegoService {
     @Autowired
     private IDesarrolladoraDAO desarrolladoraDAO;
 
-    // Listar con filtros (RF-01)[cite: 7]
+    // Listar con filtros (RF-01)
     public List<VideojuegoDTO> buscarConFiltros(String titulo, Integer idDesarrolladora, Integer anioDesde, Integer pegiMaximo, Boolean soloDisponibles) {
         return videojuegoDAO.buscarConFiltros(titulo, idDesarrolladora, anioDesde, pegiMaximo, soloDisponibles);
     }
 
-    // Obtener todas las desarrolladoras para los desplegables[cite: 6, 12]
+    // Obtener todas las desarrolladoras para los desplegables
     public List<DesarrolladoraDTO> obtenerDesarrolladoras() {
         return desarrolladoraDAO.obtenerTodas();
     }
 
-    // Insertar videojuego aplicando las validaciones de negocio (RF-02 y 3.3)[cite: 6, 7]
+    // Insertar videojuego aplicando las validaciones de negocio (RF-02 y 3.3)
     public String insertarVideojuego(String titulo, Integer anioLanzamiento, Integer pegi, Integer idDesarrolladora) {
         // 1. Validar título obligatorio
         if (titulo == null || titulo.trim().isEmpty()) {
