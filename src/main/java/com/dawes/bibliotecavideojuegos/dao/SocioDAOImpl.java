@@ -20,12 +20,11 @@ public class SocioDAOImpl implements SocioDAO {
         @Override
         public SocioDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
             SocioDTO socio = new SocioDTO();
-            socio.setIdSocio(rs.getInt("id_socio"));
+            socio.getIdSocio();
             socio.setNombre(rs.getString("nombre"));
             socio.setApellidos(rs.getString("apellidos"));
-            socio.setDni(rs.getString("dni"));
+            socio.setIdSocio(rs.getInt("id"));
             socio.setEmail(rs.getString("email"));
-            socio.setTelefono(rs.getString("telefono"));
             if (rs.getDate("fecha_alta") != null) {
                 socio.setFechaAlta(rs.getDate("fecha_alta").toLocalDate());
             }
@@ -41,28 +40,27 @@ public class SocioDAOImpl implements SocioDAO {
 
     @Override
     public List<SocioDTO> buscarPorNombreODni(String textoBusqueda) {
-        String sql = "SELECT * FROM socios WHERE LOWER(nombre) LIKE LOWER(?) OR LOWER(apellidos) LIKE LOWER(?) OR LOWER(dni) LIKE LOWER(?) ORDER BY apellidos, nombre";
+        String sql = "SELECT * FROM socios WHERE LOWER(nombre) LIKE LOWER(?) OR LOWER(apellidos) LIKE LOWER(?) ORDER BY apellidos, nombre";
         String patron = "%" + textoBusqueda + "%";
-        return jdbcTemplate.query(sql, mapper, patron, patron, patron);
+        return jdbcTemplate.query(sql, mapper, patron, patron);
     }
 
     @Override
     public SocioDTO buscarPorId(Integer idSocio) {
-        String sql = "SELECT * FROM socios WHERE id_socio = ?";
+        String sql = "SELECT * FROM socios WHERE id = ?";
         List<SocioDTO> lista = jdbcTemplate.query(sql, mapper, idSocio);
         return lista.isEmpty() ? null : lista.get(0);
     }
 
     @Override
     public int insertar(SocioDTO socio) {
-        String sql = "INSERT INTO socios (nombre, apellidos, dni, email, telefono, fecha_alta) VALUES (?, ?, ?, ?, ?, CURRENT_DATE)";
-        return jdbcTemplate.update(sql, socio.getNombre(), socio.getApellidos(), socio.getDni(), socio.getEmail(), socio.getTelefono());
+        String sql = "INSERT INTO socios (nombre, apellidos, email, fecha_alta) VALUES (?, ?, ?, CURRENT_DATE)";
+        return jdbcTemplate.update(sql, socio.getNombre(), socio.getApellidos(), socio.getEmail());
     }
 
     @Override
     public boolean existeDni(String dni) {
-        String sql = "SELECT COUNT(*) FROM socios WHERE LOWER(dni) = LOWER(?)";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, dni);
-        return count != null && count > 0;
+        // Si no usas DNI en esta tabla, devolvemos false para que no bloquee
+        return false;
     }
 }

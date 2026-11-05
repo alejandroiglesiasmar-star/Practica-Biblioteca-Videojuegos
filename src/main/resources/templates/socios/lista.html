@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Socios</title>
+
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/tablas.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+</head>
+<body>
+<h1>Gestión de Socios</h1>
+
+<nav style="margin-bottom: 15px;">
+    <a th:href="@{/}">Inicio</a> |
+    <a th:href="@{/videojuegos}">Videojuegos</a> |
+    <a th:href="@{/socios/nuevo}">Nuevo Socio</a>
+</nav>
+
+<form th:action="@{/socios}" method="get" style="margin-bottom: 15px;">
+    <input type="text" name="filtro" th:value="${filtro}" placeholder="Buscar por nombre, apellidos o DNI...">
+    <button type="submit">Buscar</button>
+</form>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>DNI</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Fecha Alta</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(socios)}">
+        <td colspan="6" style="text-align: center;">No se encontraron socios.</td>
+    </tr>
+    <tr th:each="socio : ${socios}">
+        <td th:text="${socio.nombre}">Nombre</td>
+        <td th:text="${socio.apellidos}">Apellidos</td>
+        <td th:text="${socio.dni}">DNI</td>
+        <td th:text="${socio.email}">Email</td>
+        <td th:text="${socio.telefono}">Teléfono</td>
+        <td th:text="${socio.fechaAlta}">Fecha Alta</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
