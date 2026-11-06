@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Préstamo - GameVault</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/tablas.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Registrar Nuevo Préstamo</h1>
+
+    <form th:action="@{/prestamos/guardar}" th:object="${prestamo}" method="post" class="form">
+
+        <div class="form-group">
+            <label for="idSocio">Socio:</label>
+            <select id="idSocio" th:field="*{idSocio}" class="form-control" required>
+                <option value="">-- Seleccione un socio --</option>
+                <!-- Cambiado de socio.id a socio.idSocio -->
+                <option th:each="socio : ${socios}" th:value="${socio.idSocio}" th:text="${socio.nombre + ' ' + socio.apellidos}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="idCopia">ID de la Copia:</label>
+            <input type="number" id="idCopia" th:field="*{idCopia}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="fechaPrestamo">Fecha de Préstamo:</label>
+            <input type="date" id="fechaPrestamo" th:field="*{fechaPrestamo}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="fechaLimite">Fecha Límite:</label>
+            <input type="date" id="fechaLimite" th:field="*{fechaLimite}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="multa">Multa (€):</label>
+            <input type="number" step="0.01" id="multa" th:field="*{multa}" class="form-control" value="0.00">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Guardar Préstamo</button>
+            <a th:href="@{/prestamos}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

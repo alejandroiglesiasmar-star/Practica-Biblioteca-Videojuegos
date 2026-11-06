@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Préstamos - GameVault</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/tablas.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Listado de Préstamos</h1>
+
+    <div class="acciones">
+        <a th:href="@{/prestamos/nuevo}" class="btn btn-primary">Nuevo Préstamo</a>
+        <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID Préstamo</th>
+            <th>ID Socio</th>
+            <th>ID Copia</th>
+            <th>Fecha Préstamo</th>
+            <th>Fecha Límite</th>
+            <th>Fecha Devolución</th>
+            <th>Multa</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prestamo : ${prestamos}">
+            <td th:text="${prestamo.id}">1</td>
+            <td th:text="${prestamo.idSocio}">1</td>
+            <td th:text="${prestamo.idCopia}">1</td>
+            <td th:text="${prestamo.fechaPrestamo}">2026-11-05</td>
+            <td th:text="${prestamo.fechaLimite}">2026-11-20</td>
+            <td th:text="${prestamo.fechaDevolucion != null ? prestamo.fechaDevolucion : 'Pendiente'}">Pendiente</td>
+            <td th:text="${prestamo.multa != null ? prestamo.multa + ' €' : '0.0 €'}">0.0 €</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

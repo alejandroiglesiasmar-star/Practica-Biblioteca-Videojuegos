@@ -3,38 +3,37 @@ package com.dawes.bibliotecavideojuegos.dto;
 import java.time.LocalDate;
 
 public class PrestamoDTO {
-    private int id;
-    private int idSocio;
-    private int idCopia;
+    private Integer id;
+    private Integer idSocio;
+    private Integer idCopia;
     private LocalDate fechaPrestamo;
     private LocalDate fechaLimite;
     private LocalDate fechaDevolucion;
-    private double multa;
-    
+    private Double multa;
+
     public PrestamoDTO() {}
 
-    // Getters y Setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdSocio() {
+    public Integer getIdSocio() {
         return idSocio;
     }
 
-    public void setIdSocio(int idSocio) {
+    public void setIdSocio(Integer idSocio) {
         this.idSocio = idSocio;
     }
 
-    public int getIdCopia() {
+    public Integer getIdCopia() {
         return idCopia;
     }
 
-    public void setIdCopia(int idCopia) {
+    public void setIdCopia(Integer idCopia) {
         this.idCopia = idCopia;
     }
 
@@ -62,11 +61,11 @@ public class PrestamoDTO {
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public double getMulta() {
+    public Double getMulta() {
         return multa;
     }
 
-    public void setMulta(double multa) {
+    public void setMulta(Double multa) {
         this.multa = multa;
     }
 }
