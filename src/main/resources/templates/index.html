@@ -2,21 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio - GameVault</title>
-
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <title>GameVault - Biblioteca de videojuegos</title>
     <link rel="stylesheet" th:href="@{/css/tablas.css}">
-    <link rel="stylesheet" th:href="@{/css/formularios.css}">
-
+    <style>
+        /* Estilos directos para garantizar que la barra superior azul aparezca */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .barra-navegacion {
+            background-color: #1a365d;
+            padding: 12px 20px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .barra-navegacion a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .barra-navegacion a:hover {
+            text-decoration: underline;
+        }
+        .contenido-principal {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Bienvenido a GameVault</h1>
-    <p>Gestión de biblioteca de videojuegos y socios.</p>
-    <br>
-    <a th:href="@{/videojuegos}" class="btn-enlace">Acceder al módulo de Videojuegos</a>
-    <a th:href="@{/socios}">Gestión de Socios</a>
-    <a th:href="@{/prestamos}" class="btn">Gestionar Préstamos</a>
+
+<!-- Barra de navegación superior -->
+<div class="barra-navegacion">
+    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/videojuegos}">Videojuegos</a>
+    <a th:href="@{/socios}">Socios</a>
+    <a th:href="@{/copias}">Copias</a>
+    <a th:href="@{/prestamos}">Préstamos</a>
 </div>
+
+<div class="contenido-principal">
+    <h1 style="color: #1a365d; margin-top: 10px;">
+        GameVault <span style="font-weight: normal; color: #555;">· Biblioteca de videojuegos</span>
+    </h1>
+    <hr style="border: none; border-top: 2px solid #f39c12; margin-bottom: 30px;">
+
+    <!-- Cuadro de mando con las 4 tarjetas de contadores -->
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-start;">
+
+        <!-- Videojuegos -->
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px 20px; text-align: center; width: 180px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 2.8rem; color: #1a365d; margin: 0; font-weight: bold;" th:text="${totalVideojuegos}">0</h2>
+            <p style="color: #4a5568; margin-top: 8px; font-weight: 500;">Videojuegos</p>
+        </div>
+
+        <!-- Socios activos -->
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px 20px; text-align: center; width: 180px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 2.8rem; color: #1a365d; margin: 0; font-weight: bold;" th:text="${totalSociosActivos}">0</h2>
+            <p style="color: #4a5568; margin-top: 8px; font-weight: 500;">Socios activos</p>
+        </div>
+
+        <!-- Préstamos abiertos -->
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px 20px; text-align: center; width: 180px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 2.8rem; color: #1a365d; margin: 0; font-weight: bold;" th:text="${totalPrestamosAbiertos}">0</h2>
+            <p style="color: #4a5568; margin-top: 8px; font-weight: 500;">Préstamos abiertos</p>
+        </div>
+
+        <!-- Préstamos vencidos -->
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px 20px; text-align: center; width: 180px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 2.8rem; color: #e53e3e; margin: 0; font-weight: bold;" th:text="${totalPrestamosVencidos}">0</h2>
+            <p style="color: #4a5568; margin-top: 8px; font-weight: 500;">Préstamos vencidos</p>
+        </div>
+
+    </div>
+</div>
+
 </body>
 </html>

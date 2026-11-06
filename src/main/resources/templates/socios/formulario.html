@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar socio - GameVault</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/tablas.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Insertar socio</h1>
+
+    <!-- Si tienes un mensaje de error o duplicidad de email (RF-04)[cite: 9, 15] -->
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}" style="color: red; border-left: 3px solid red; padding: 5px; margin-bottom: 15px;"></div>
+
+    <form th:action="@{/socios/guardar}" th:object="${socio}" method="post" class="form">
+
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos" th:field="*{apellidos}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" th:field="*{email}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="fechaNacimiento">Fecha de nacimiento</label>
+            <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" class="form-control" required>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Insertar</button>
+            <a th:href="@{/socios}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

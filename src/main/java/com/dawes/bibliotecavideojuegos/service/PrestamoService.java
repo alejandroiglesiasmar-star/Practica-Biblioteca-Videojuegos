@@ -20,4 +20,13 @@ public class PrestamoService {
     public void guardarPrestamo(PrestamoDTO prestamo) {
         prestamoDAO.guardar(prestamo);
     }
+    public int contarPrestamosAbiertos() {
+        return prestamoDAO.contarAbiertos();
+    }
+
+    public int contarPrestamosVencidos() {
+        return prestamoDAO.contarVencidos();
+    }
+
+
 }

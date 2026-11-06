@@ -2,50 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Socios</title>
-
+    <title>Listado de socios - GameVault</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/css/tablas.css}">
     <link rel="stylesheet" th:href="@{/css/formularios.css}">
 </head>
 <body>
-<h1>Gestión de Socios</h1>
+<div class="container">
 
-<nav style="margin-bottom: 15px;">
-    <a th:href="@{/}">Inicio</a> |
-    <a th:href="@{/videojuegos}">Videojuegos</a> |
-    <a th:href="@{/socios/nuevo}">Nuevo Socio</a>
-</nav>
+    <h1>Listado de socios</h1>
 
-<form th:action="@{/socios}" method="get" style="margin-bottom: 15px;">
-    <input type="text" name="filtro" th:value="${filtro}" placeholder="Buscar por nombre, apellidos o DNI...">
-    <button type="submit">Buscar</button>
-</form>
+    <!-- Formulario de Búsqueda / Filtros (RF-03) -->
+    <form th:action="@{/socios}" method="get" class="form-busqueda">
+        <label for="nombre">Nombre o apellidos</label>
+        <input type="text" id="nombre" name="nombre" th:value="${param.nombre}">
 
-<table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>DNI</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Fecha Alta</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${#lists.isEmpty(socios)}">
-        <td colspan="6" style="text-align: center;">No se encontraron socios.</td>
-    </tr>
-    <tr th:each="socio : ${socios}">
-        <td th:text="${socio.nombre}">Nombre</td>
-        <td th:text="${socio.apellidos}">Apellidos</td>
-        <td th:text="${socio.dni}">DNI</td>
-        <td th:text="${socio.email}">Email</td>
-        <td th:text="${socio.telefono}">Teléfono</td>
-        <td th:text="${socio.fechaAlta}">Fecha Alta</td>
-    </tr>
-    </tbody>
-</table>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" th:value="${param.email}">
+
+        <label for="activo">Activo</label>
+        <select id="activo" name="activo">
+            <option value="">Todos</option>
+            <option value="1" th:selected="${param.activo == '1'}">Sí</option>
+            <option value="0" th:selected="${param.activo == '0'}">No</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    <div class="acciones" style="margin-top: 20px;">
+        <a th:href="@{/socios/nuevo}" class="btn btn-success">Nuevo Socio</a>
+    </div>
+
+    <!-- Tabla de Resultados con las columnas exactas del enunciado[cite: 9, 18] -->
+    <table class="table" style="margin-top: 20px;">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Edad</th>
+            <th>Activo</th>
+            <th>Préstamos abiertos</th>
+            <th>Alta</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="socio : ${socios}">
+            <td th:text="${socio.id}">1</td>
+            <td th:text="${socio.nombre}">Nombre</td>
+            <td th:text="${socio.apellidos}">Apellidos</td>
+            <td th:text="${socio.email}">correo@mail.test</td>
+            <td th:text="${socio.edad}">30</td>
+            <td th:text="${socio.activo ? 'Sí' : 'No'}">Sí</td>
+            <td th:text="${socio.prestamosAbiertos}">0</td>
+            <td th:text="${socio.fechaAlta}">2026-01-01</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

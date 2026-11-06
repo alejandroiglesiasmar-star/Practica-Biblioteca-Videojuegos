@@ -58,4 +58,16 @@ public class PrestamoDAOImpl implements PrestamoDAO {
                 prestamo.getMulta() != null ? prestamo.getMulta() : 0.0
         );
     }
+    @Override
+    public int contarAbiertos() {
+        String sql = "SELECT COUNT(*) FROM prestamos WHERE fecha_devolucion IS NULL";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return count != null ? count : 0;
+    }
+
+    public int contarVencidos() {
+        String sql = "SELECT COUNT(*) FROM prestamos WHERE fecha_devolucion IS NULL AND fecha_limite < CURDATE()";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return count != null ? count : 0;
+    }
 }
