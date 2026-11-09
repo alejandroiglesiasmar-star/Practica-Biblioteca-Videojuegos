@@ -85,9 +85,11 @@ public class PrestamoService {
         }
 
         // RN-4: la edad del socio debe ser mayor o igual que el PEGI del juego
-        int edad = Period.between(socio.getFechaNacimiento(), LocalDate.now()).getYears();
-        if (copia.getPegi() != null && edad < copia.getPegi()) {
-            throw new ReglaNegocioException("RN-4: El socio (" + edad + " años) no alcanza el PEGI " + copia.getPegi() + " del juego.");
+        if (socio.getFechaNacimiento() != null && copia.getPegi() != null) {
+            int edad = Period.between(socio.getFechaNacimiento(), LocalDate.now()).getYears();
+            if (edad < copia.getPegi()) {
+                throw new ReglaNegocioException("RN-4: El socio (" + edad + " años) no alcanza el PEGI " + copia.getPegi() + " del juego.");
+            }
         }
 
         // RN-5: no puede tener préstamos vencidos sin devolver
