@@ -9,8 +9,9 @@
     <link rel="stylesheet" th:href="@{/css/formularios.css}">
 </head>
 <body>
+<div th:replace="~{fragments :: menu}"></div>
 <div class="container">
-    <h1>Listado de videojuegos</h1>
+    <div th:replace="~{fragments :: cabecera('Listado de videojuegos')}"></div>
 
     <!-- FORMULARIO -->
     <form action="#" th:action="@{/videojuegos}" method="get" class="form-filtro">

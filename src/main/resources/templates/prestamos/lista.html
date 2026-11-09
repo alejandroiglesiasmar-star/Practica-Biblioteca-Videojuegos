@@ -6,37 +6,81 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/css/tablas.css}">
     <link rel="stylesheet" th:href="@{/css/formularios.css}">
+    <style>
+        .estado-enplazo { color: #2e7d32; font-weight: bold; }
+        .estado-vencido { color: #c62828; font-weight: bold; }
+        .estado-devuelto { color: #1565c0; font-weight: bold; }
+        .mensaje-exito { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 10px 15px; margin-bottom: 15px; }
+        .mensaje-error { background: #ffebee; border-left: 4px solid #f44336; padding: 10px 15px; margin-bottom: 15px; }
+    </style>
 </head>
 <body>
+<div th:replace="~{fragments :: menu}"></div>
 <div class="container">
-    <h1>Listado de Préstamos</h1>
+    <div th:replace="~{fragments :: cabecera('Listado de Préstamos')}"></div>
 
-    <div class="acciones">
-        <a th:href="@{/prestamos/nuevo}" class="btn btn-primary">Nuevo Préstamo</a>
-        <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
-    </div>
+    <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}"></div>
+    <div th:if="${error}" class="mensaje-error" th:text="${error}"></div>
+
+    <!-- Filtros: estado y fecha de préstamo  -->
+    <form th:action="@{/prestamos}" method="get" class="form-busqueda">
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado">
+            <option value="">Todos</option>
+            <option value="enplazo" th:selected="${estadoFiltro == 'enplazo'}">En plazo</option>
+            <option value="vencidos" th:selected="${estadoFiltro == 'vencidos'}">Vencidos</option>
+            <option value="devueltos" th:selected="${estadoFiltro == 'devueltos'}">Devueltos</option>
+        </select>
+
+        <label for="fechaDesde">Préstamo desde</label>
+        <input type="date" id="fechaDesde" name="fechaDesde" th:value="${fechaDesdeFiltro}">
+
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a th:href="@{/prestamos/nuevo}" class="btn btn-success">Nuevo Préstamo</a>
+    </form>
 
     <table class="table">
         <thead>
         <tr>
-            <th>ID Préstamo</th>
-            <th>ID Socio</th>
-            <th>ID Copia</th>
-            <th>Fecha Préstamo</th>
-            <th>Fecha Límite</th>
-            <th>Fecha Devolución</th>
+            <th>Socio</th>
+            <th>Juego</th>
+            <th>Plataforma</th>
+            <th>Fecha préstamo</th>
+            <th>Fecha límite</th>
+            <th>Fecha devolución</th>
             <th>Multa</th>
+            <th>Estado</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="prestamo : ${prestamos}">
-            <td th:text="${prestamo.id}">1</td>
-            <td th:text="${prestamo.idSocio}">1</td>
-            <td th:text="${prestamo.idCopia}">1</td>
+            <td th:text="${prestamo.nombreSocio}">Nombre Apellidos</td>
+            <td th:text="${prestamo.tituloJuego}">Juego</td>
+            <td th:text="${prestamo.plataforma}">Plataforma</td>
             <td th:text="${prestamo.fechaPrestamo}">2026-11-05</td>
             <td th:text="${prestamo.fechaLimite}">2026-11-20</td>
-            <td th:text="${prestamo.fechaDevolucion != null ? prestamo.fechaDevolucion : 'Pendiente'}">Pendiente</td>
-            <td th:text="${prestamo.multa != null ? prestamo.multa + ' €' : '0.0 €'}">0.0 €</td>
+            <td th:text="${prestamo.fechaDevolucion != null ? prestamo.fechaDevolucion : '-'}">-</td>
+            <td th:text="${prestamo.multa != null ? prestamo.multa + ' €' : '0.00 €'}">0.00 €</td>
+            <td>
+                <span th:if="${prestamo.estado == 'EN PLAZO'}" class="estado-enplazo">EN PLAZO</span>
+                <span th:if="${prestamo.estado == 'VENCIDO'}" class="estado-vencido">
+                    VENCIDO <small th:text="'(' + ${prestamo.diasRetraso} + ' días)'"></small>
+                </span>
+                <span th:if="${prestamo.estado == 'DEVUELTO'}" class="estado-devuelto">DEVUELTO</span>
+            </td>
+            <td>
+                <form th:if="${prestamo.fechaDevolucion == null}"
+                      th:action="@{/prestamos/{id}/devolver(id=${prestamo.id})}" method="post">
+                    <label>
+                        <input type="checkbox" name="copiaDanada" value="true"> Dañada
+                    </label>
+                    <button type="submit" class="btn btn-warning">Devolver</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(prestamos)}">
+            <td colspan="9" class="vacio">No se encontraron préstamos con los filtros seleccionados.</td>
         </tr>
         </tbody>
     </table>

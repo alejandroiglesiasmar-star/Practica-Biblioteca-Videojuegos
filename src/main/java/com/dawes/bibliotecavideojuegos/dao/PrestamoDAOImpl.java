@@ -1,73 +1,56 @@
 package com.dawes.bibliotecavideojuegos.dao;
 
 import com.dawes.bibliotecavideojuegos.dto.PrestamoDTO;
+import com.dawes.bibliotecavideojuegos.repository.PrestamoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public class PrestamoDAOImpl implements PrestamoDAO {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    private final RowMapper<PrestamoDTO> napper = new RowMapper<PrestamoDTO>() {
-        @Override
-        public PrestamoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-            PrestamoDTO prestamo = new PrestamoDTO();
-            prestamo.setId(rs.getInt("id"));
-            prestamo.setIdSocio(rs.getInt("id_socio"));
-            prestamo.setIdCopia(rs.getInt("id_copia"));
-
-            if (rs.getDate("fecha_prestamo") != null) {
-                prestamo.setFechaPrestamo(rs.getDate("fecha_prestamo").toLocalDate());
-            }
-            if (rs.getDate("fecha_limite") != null) {
-                prestamo.setFechaLimite(rs.getDate("fecha_limite").toLocalDate());
-            }
-            if (rs.getDate("fecha_devolucion") != null) {
-                prestamo.setFechaDevolucion(rs.getDate("fecha_devolucion").toLocalDate());
-            }
-            if (rs.getObject("multa") != null) {
-                prestamo.setMulta(rs.getDouble("multa"));
-            }
-            return prestamo;
-        }
-    };
+    private PrestamoRepository prestamoRepository;
 
     @Override
-    public List<PrestamoDTO> buscarTodos() {
-        String sql = "SELECT id, id_socio, id_copia, fecha_prestamo, fecha_limite, fecha_devolucion, multa FROM prestamos";
-        return jdbcTemplate.query(sql, napper);
+    public List<PrestamoDTO> buscarConFiltros(String estado, LocalDate fechaDesde) {
+        return prestamoRepository.buscarConFiltros(estado, fechaDesde);
     }
 
     @Override
-    public void guardar(PrestamoDTO prestamo) {
-        String sql = "INSERT INTO prestamos (id_socio, id_copia, fecha_prestamo, fecha_limite, fecha_devolucion, multa) VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                prestamo.getIdSocio(),
-                prestamo.getIdCopia(),
-                prestamo.getFechaPrestamo(),
-                prestamo.getFechaLimite(),
-                prestamo.getFechaDevolucion(),
-                prestamo.getMulta() != null ? prestamo.getMulta() : 0.0
-        );
+    public PrestamoDTO obtenerPorId(Integer idPrestamo) {
+        return prestamoRepository.obtenerPorId(idPrestamo);
     }
+
+    @Override
+    public Integer insertar(PrestamoDTO prestamo) {
+        return prestamoRepository.insertar(prestamo);
+    }
+
+    @Override
+    public void registrarDevolucion(Integer idPrestamo, LocalDate fechaDevolucion, double multa) {
+        prestamoRepository.registrarDevolucion(idPrestamo, fechaDevolucion, multa);
+    }
+
     @Override
     public int contarAbiertos() {
-        String sql = "SELECT COUNT(*) FROM prestamos WHERE fecha_devolucion IS NULL";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
-        return count != null ? count : 0;
+        return prestamoRepository.contarAbiertos();
     }
 
+    @Override
     public int contarVencidos() {
-        String sql = "SELECT COUNT(*) FROM prestamos WHERE fecha_devolucion IS NULL AND fecha_limite < CURDATE()";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
-        return count != null ? count : 0;
+        return prestamoRepository.contarVencidos();
+    }
+
+    @Override
+    public int contarAbiertosPorSocio(Integer idSocio) {
+        return prestamoRepository.contarAbiertosPorSocio(idSocio);
+    }
+
+    @Override
+    public boolean tieneVencidosSinDevolver(Integer idSocio) {
+        return prestamoRepository.tieneVencidosSinDevolver(idSocio);
     }
 }

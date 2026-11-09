@@ -46,4 +46,10 @@ public class VideojuegoRepository {
         String sql = "INSERT INTO videojuegos (titulo, anio_lanzamiento, pegi, id_desarrolladora) VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, titulo, anioLanzamiento, pegi, idDesarrolladora);
     }
+
+    public int contarTotal() {
+        String sql = "SELECT COUNT(*) FROM videojuegos";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return count != null ? count : 0;
+    }
 }

@@ -11,6 +11,13 @@ public class PrestamoDTO {
     private LocalDate fechaDevolucion;
     private Double multa;
 
+    // Campos calculados para el listado (RF-06)
+    private String nombreSocio;
+    private String tituloJuego;
+    private String plataforma;
+    private String estado;
+    private Integer diasRetraso;
+
     public PrestamoDTO() {}
 
     public Integer getId() {
@@ -67,5 +74,45 @@ public class PrestamoDTO {
 
     public void setMulta(Double multa) {
         this.multa = multa;
+    }
+
+    public String getNombreSocio() {
+        return nombreSocio;
+    }
+
+    public void setNombreSocio(String nombreSocio) {
+        this.nombreSocio = nombreSocio;
+    }
+
+    public String getTituloJuego() {
+        return tituloJuego;
+    }
+
+    public void setTituloJuego(String tituloJuego) {
+        this.tituloJuego = tituloJuego;
+    }
+
+    public String getPlataforma() {
+        return plataforma;
+    }
+
+    public void setPlataforma(String plataforma) {
+        this.plataforma = plataforma;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Integer getDiasRetraso() {
+        return diasRetraso;
+    }
+
+    public void setDiasRetraso(Integer diasRetraso) {
+        this.diasRetraso = diasRetraso;
     }
 }

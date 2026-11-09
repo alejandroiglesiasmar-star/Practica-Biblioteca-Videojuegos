@@ -8,10 +8,11 @@
     <link rel="stylesheet" th:href="@{/css/formularios.css}">
 </head>
 <body>
+<div th:replace="~{fragments :: menu}"></div>
 <div class="container">
-    <h1>Insertar socio</h1>
+    <div th:replace="~{fragments :: cabecera('Nuevo socio')}"></div>
 
-    <!-- Si tienes un mensaje de error o duplicidad de email (RF-04)[cite: 9, 15] -->
+    <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}" style="color: red; border-left: 3px solid red; padding: 5px; margin-bottom: 15px;"></div>
 
     <form th:action="@{/socios/guardar}" th:object="${socio}" method="post" class="form">

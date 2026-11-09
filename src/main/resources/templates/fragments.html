@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="menu" class="barra-navegacion">
+    <a th:href="@{/}">Inicio</a>
+    <a th:href="@{/videojuegos}">Videojuegos</a>
+    <a th:href="@{/socios}">Socios</a>
+    <a th:href="@{/prestamos}">Préstamos</a>
+</nav>
+
+<header th:fragment="cabecera(titulo)" class="cabecera">
+    <h1 th:text="${titulo}">GameVault</h1>
+    <hr class="separador">
+</header>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen del Préstamo - GameVault</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/tablas.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+    <style>
+        .mensaje-exito { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 10px 15px; margin-bottom: 15px; }
+        .resumen { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; max-width: 600px; }
+        .resumen dt { font-weight: bold; color: #1a365d; }
+        .resumen dd { margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments :: menu}"></div>
+<div class="container">
+    <div th:replace="~{fragments :: cabecera('Resumen del Préstamo')}"></div>
+
+    <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}"></div>
+
+    <div class="resumen" th:if="${prestamo != null}">
+        <dl>
+            <dt>Socio</dt>
+            <dd th:text="${prestamo.nombreSocio}">Nombre Apellidos</dd>
+
+            <dt>Juego</dt>
+            <dd th:text="${prestamo.tituloJuego + ' (' + prestamo.plataforma + ')'}">Juego (Plataforma)</dd>
+
+            <dt>Fecha de préstamo</dt>
+            <dd th:text="${prestamo.fechaPrestamo}">2026-11-09</dd>
+
+            <dt>Fecha límite</dt>
+            <dd th:text="${prestamo.fechaLimite}">2026-11-24</dd>
+
+            <dt th:if="${prestamo.fechaDevolucion != null}">Fecha de devolución</dt>
+            <dd th:if="${prestamo.fechaDevolucion != null}" th:text="${prestamo.fechaDevolucion}">2026-11-09</dd>
+
+            <dt>Multa</dt>
+            <dd th:text="${prestamo.multa != null ? prestamo.multa + ' €' : '0.00 €'}">0.00 €</dd>
+        </dl>
+
+        <a th:href="@{/prestamos}" class="btn btn-primary">Volver al listado</a>
+        <a th:href="@{/prestamos/nuevo}" class="btn btn-secondary">Nuevo préstamo</a>
+    </div>
+</div>
+</body>
+</html>

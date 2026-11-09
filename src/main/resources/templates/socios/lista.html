@@ -8,9 +8,10 @@
     <link rel="stylesheet" th:href="@{/css/formularios.css}">
 </head>
 <body>
+<div th:replace="~{fragments :: menu}"></div>
 <div class="container">
 
-    <h1>Listado de socios</h1>
+    <div th:replace="~{fragments :: cabecera('Listado de socios')}"></div>
 
     <!-- Formulario de Búsqueda / Filtros (RF-03) -->
     <form th:action="@{/socios}" method="get" class="form-busqueda">
@@ -34,7 +35,7 @@
         <a th:href="@{/socios/nuevo}" class="btn btn-success">Nuevo Socio</a>
     </div>
 
-    <!-- Tabla de Resultados con las columnas exactas del enunciado[cite: 9, 18] -->
+    <!-- Tabla de Resultados  -->
     <table class="table" style="margin-top: 20px;">
         <thead>
         <tr>
@@ -58,6 +59,9 @@
             <td th:text="${socio.activo ? 'Sí' : 'No'}">Sí</td>
             <td th:text="${socio.prestamosAbiertos}">0</td>
             <td th:text="${socio.fechaAlta}">2026-01-01</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(socios)}">
+            <td colspan="8" class="vacio">No se encontraron socios con los filtros seleccionados.</td>
         </tr>
         </tbody>
     </table>

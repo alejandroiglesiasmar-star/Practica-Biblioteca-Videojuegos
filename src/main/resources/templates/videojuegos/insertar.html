@@ -10,8 +10,9 @@
     <link rel="stylesheet" th:href="@{/css/formularios.css}">
 </head>
 <body>
+<div th:replace="~{fragments :: menu}"></div>
 <div class="container">
-    <h1>Insertar videojuego</h1>
+    <div th:replace="~{fragments :: cabecera('Insertar videojuego')}"></div>
 
 
     <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}"></div>
